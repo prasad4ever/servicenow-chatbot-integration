@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ServiceNow Chatbot</title>
+    <style>
+        body { font-family: Arial; max-width: 600px; margin: 50px auto; }
+        #chat { border: 1px solid #ccc; padding: 10px; height: 400px; overflow-y: scroll; }
+        .user { color: blue; margin: 5px 0; }
+        .bot { color: green; margin: 5px 0; }
+    </style>
+</head>
+<body>
+    <h2>ServiceNow Chatbot</h2>
+    <div id="chat"></div>
+    <input type="text" id="userInput" placeholder="Type your issue..." style="width: 80%;">
+    <button onclick="sendMessage()">Send</button>
+
+    <script>
+        const chatDiv = document.getElementById("chat");
+
+        function appendMessage(sender, message) {
+            const div = document.createElement("div");
+            div.className = sender;
+            div.textContent = message;
+            chatDiv.appendChild(div);
+            chatDiv.scrollTop = chatDiv.scrollHeight;
+        }
+
+        async function sendMessage() {
+            const input = document.getElementById("userInput");
+            const message = input.value.trim();
+            if (!message) return;
+            appendMessage("user", message);
+            input.value = "";
+
+            try {
+                const response = await fetch("http://127.0.0.1:8000/chatbot/query", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ "query": message })
+                });
+                const data = await response.json();
+
+                if(data.source === "kb") {
+                    appendMessage("bot", "KB Solution: " + data.results[0].content);
+                } else if(data.source === "incident") {
+                    appendMessage("bot", "Previous Incident Resolution: " + data.results[0].resolution);
+                } else if(data.source === "new_ticket") {
+                    appendMessage("bot", "No solution found. Ticket created with ID: " + data.incident.id);
+                } else {
+                    appendMessage("bot", "Sorry, something went wrong.");
+                }
+
+            } catch (err) {
+                appendMessage("bot", "Error connecting to server.");
+            }
+        }
+    </script>
+</body>
+</html>

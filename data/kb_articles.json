@@ -1,0 +1,12 @@
+[
+    {
+        "id": "KB001",
+        "title": "VPN not connecting",
+        "content": "To fix VPN issues, restart the VPN client and check your network connection."
+    },
+    {
+        "id": "KB002",
+        "title": "Cannot access email",
+        "content": "Clear browser cache or reset your email password to fix login issues."
+    }
+]

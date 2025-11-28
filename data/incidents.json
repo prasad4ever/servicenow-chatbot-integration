@@ -1,0 +1,22 @@
+[
+    {
+        "id": "INC001",
+        "short_description": "WiFi disconnects frequently",
+        "resolution": "Reboot router and reconnect devices"
+    },
+    {
+        "id": "INC002",
+        "short_description": "Cannot print documents",
+        "resolution": "Check printer connection and driver installation"
+    },
+    {
+        "id": "INC534731",
+        "short_description": "Laptop overheating",
+        "resolution": "User laptop heating up constantly"
+    },
+    {
+        "id": "INCB2899E",
+        "short_description": "Mouse not working",
+        "resolution": "Ticket created for investigation"
+    }
+]
